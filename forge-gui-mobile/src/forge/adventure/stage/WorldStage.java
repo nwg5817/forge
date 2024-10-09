@@ -71,7 +71,7 @@ public class WorldStage extends GameStage implements SaveFileContent {
             return;
         drawNavigationArrow();
         if (player.isMoving()) {
-            handleMonsterSpawn(delta);
+            //handleMonsterSpawn(delta);
             handlePointsOfInterestCollision();
             globalTimer += delta;
             Iterator<Pair<Float, EnemySprite>> it = enemies.iterator();
