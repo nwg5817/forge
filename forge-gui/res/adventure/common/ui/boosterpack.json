@@ -1,0 +1,232 @@
+{
+  "width": 480,
+  "height": 270,
+  "yDown": true,
+  "elements": [
+    {
+      "type": "Image",
+      "image": "ui/spellsmith.png",
+      "width": 480,
+      "height": 270
+    },
+    {
+      "type": "Scroll",
+      "name": "xkUkiUhwoi2ll5rrSpk6-6",
+      "text": "Scroll",
+      "style": "paper",
+      "x": 340,
+      "y": 30,
+      "width": 130,
+      "height": 53
+    },
+    {
+      "type": "Scroll",
+      "name": "xkUkiUhwoi2ll5rrSpk6-2",
+      "text": "Scroll",
+      "style": "paper",
+      "x": 0,
+      "y": 30,
+      "width": 330,
+      "height": 53
+    },
+    {
+      "type": "Scroll",
+      "name": "xkUkiUhwoi2ll5rrSpk6-3",
+      "text": "Scroll",
+      "style": "paper",
+      "x": 0,
+      "y": 90,
+      "width": 330,
+      "height": 53
+    },
+    {
+      "type": "TextButton",
+      "selectable": true,
+      "name": "done",
+      "text": "[+OK]",
+      "binding": "Use",
+      "x": 400,
+      "y": 240,
+      "width": 70,
+      "height": 20
+    },
+    {
+      "type": "TextButton",
+      "selectable": true,
+      "name": "BBlack",
+      "text": "[+B]",
+      "x": 15,
+      "y": 120,
+      "width": 45,
+      "height": 20
+    },
+    {
+      "type": "TextButton",
+      "selectable": true,
+      "name": "BBlue",
+      "text": "[+U]",
+      "x": 65,
+      "y": 120,
+      "width": 45,
+      "height": 20
+    },
+    {
+      "type": "TextButton",
+      "selectable": true,
+      "name": "BGreen",  
+      "text": "[+G]",
+      "x": 115,
+      "y": 120,
+      "width": 45,
+      "height": 20
+    },
+    {
+      "type": "TextButton",
+      "selectable": true,
+      "name": "BRed",
+      "text": "[+R]",
+      "x": 165,
+      "y": 120,
+      "width": 45,
+      "height": 20
+    },
+    {
+      "type": "TextButton",
+      "selectable": true,
+      "name": "BWhite",
+      "text": "[+W]",
+      "x": 215,
+      "y": 120,
+      "width": 45,
+      "height": 20
+    },
+    {
+      "type": "TextButton",
+      "selectable": true,
+      "name": "BColorless",
+      "text": "[+C]",
+      "x": 265,
+      "y": 120,
+      "width": 45,
+      "height": 20
+    },
+    {
+      "type": "Label",
+      "name": "playerGold", 
+	  "style":"background",
+      "x": 360,
+      "y": 120,
+      "width": 30,
+      "height": 20
+    },
+    {
+      "type": "TextButton",
+      "selectable": true,
+      "name": "pullUsingGold",
+      "binding": "Status",
+      "text": "tr(lblDraw) [+gold]",  
+      "x": 400,
+      "y": 120,
+      "width": 70,
+      "height": 20
+    },
+	{
+      "type": "Label",
+      "name": "playerShards", 
+	  "style":"background",
+      "x": 360,
+      "y": 150,
+      "width": 30,
+      "height": 20
+    },
+	{
+      "type": "TextButton",
+      "selectable": true,
+      "name": "pullUsingShards",
+      "binding": "Equip",
+      "text": "tr(lblDraw) [+shards]",  
+      "x": 400,
+      "y": 150,
+      "width": 70,
+      "height": 20
+    },
+    {
+      "type": "TextButton",
+      "selectable": true,
+      "name": "accept",
+      "text": "tr(lblTake)",
+      "binding": "Use",
+      "x": 343,
+      "y": 173,
+      "width": 60,
+      "height": 20
+    },
+    {
+      "type": "TextButton",
+      "selectable": true,
+      "name": "decline",
+      "text": "tr(lblRefund)",
+      "binding": "Back",
+      "x": 405,
+      "y": 173,
+      "width": 60,
+      "height": 20
+    },
+	{
+      "type": "Label",
+      "name": "poolSize", 
+      "x": 360,
+      "y": 60,
+      "width": 90,
+      "height": 20
+    },
+    {
+      "type": "Label",
+      "name": "colorLabel",
+      "text": "[/][BLACK]tr(lblColors)",
+      "x": 10,
+      "y": 90,
+      "width": 100,
+      "height": 20
+    },
+    {
+      "type": "Label",
+      "name": "vnXYKZJw_P5wMnHa1tH7-3",
+      "text": "[/][BLACK]tr(lblPlane)",
+      "x": 10,
+      "y": 30,
+      "width": 100,
+      "height": 20
+    },
+    {
+      "type": "SelectBox",
+      "selectable": true,
+      "name": "BSelectPlane",
+      "text": "Select Plane",
+      "x": 10,
+      "y": 60,
+      "width": 230,
+      "height": 20
+    },
+    {
+      "type": "TextButton",
+      "selectable": true,
+      "name": "BReset",
+      "text": "tr(lblReset)",  
+      "x": 250,
+      "y": 60,
+      "width": 70,
+      "height": 20
+    },
+    {
+      "type": "Scroll",
+      "name": "RewardDummy",
+      "text": "Image",
+      "style": "nobg",
+      "x": 358,
+      "y": 40,
+      "width": 95,
+      "height": 130
+    }
+  ]
+}
