@@ -105,53 +105,46 @@ public class RewardScene extends UIScene {
 
     private void toggleToolTip() {
         Selectable selectable = getSelected();
-        if (selectable == null) return;  // No valid selection
-
+        if (selectable == null) return;
+    
         RewardActor actor = getRewardActorFromSelectable(selectable);
-        if (actor == null) return;  // No valid actor for selection
-
-        // If we're in zoom mode, pressing X again should exit and hide the tooltip
+        if (actor == null) return;
+    
         if (actor.toolTipIsVisible()) {
             actor.hideTooltip();
-            previousActor = null;  // Reset previous actor
-            inZoomMode = false;    // Exit zoom mode
+            previousActor = null;
+            inZoomMode = false;
         } else {
-            // Otherwise, enter zoom mode and show the tooltip
             if (!actor.isFlipped()) {
                 actor.showTooltip();
-                previousActor = actor;  // Track the current actor for later
-                inZoomMode = true;      // Enter zoom mode
+                previousActor = actor;
+                inZoomMode = true;
             }
         }
     }
-
-
+    
     private void checkSelectionChange() {
         Selectable newSelectable = getSelected();
-
+    
         if (newSelectable != currentSelectable) {
-            // Selection has changed
             if (currentSelectable != null) {
-                // Hide the tooltip for the previous actor if it exists, but only in zoom mode
                 RewardActor prevActor = getRewardActorFromSelectable(currentSelectable);
                 if (prevActor != null && inZoomMode && prevActor.toolTipIsVisible()) {
                     prevActor.hideTooltip();
                 }
             }
-
+    
             currentSelectable = newSelectable;
-
-            // If we are in zoom mode, show the tooltip for the new selection
+    
             if (inZoomMode && currentSelectable != null) {
-                toggleToolTip();  // Change the zoom to the new selected card
+                toggleToolTip();
             }
         }
-
-        // If we navigate to a null selection, hide the tooltip automatically and exit zoom mode
+    
         if (currentSelectable == null && previousActor != null && previousActor.toolTipIsVisible()) {
             previousActor.hideTooltip();
-            previousActor = null;  // Reset the previous actor reference
-            inZoomMode = false;  // Exit zoom mode
+            previousActor = null;
+            inZoomMode = false;
         }
     }
 
@@ -264,7 +257,7 @@ public class RewardScene extends UIScene {
     public void enter() {
         doneButton.setText("[+OK]");
         updateDetailButton();
-        inZoomMode = false; // Assuming you have a variable for tracking zoom mode
+        inZoomMode = false;
         super.enter();
     }
 
