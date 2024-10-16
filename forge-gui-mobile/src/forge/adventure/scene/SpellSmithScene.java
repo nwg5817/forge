@@ -157,15 +157,24 @@ public class SpellSmithScene extends UIScene {
             if (input.getType() == CardEdition.Type.REPRINT || input.getType() == CardEdition.Type.PROMO || input.getType() == CardEdition.Type.COLLECTOR_EDITION)
                 return false;
             if (input.getDate() != null) {
-                Instant now = Instant.now(); //this should filter upcoming sets from release date + 1 day..
+                Instant now = Instant.now(); // this filters upcoming sets from release date + 1 day
                 if (input.getDate().after(Date.from(now.minus(1, ChronoUnit.DAYS))))
                     return false;
+            }
+            // Check if the allowedYear is greater than 0 and filter by year
+            ConfigData configData = Config.instance().getConfigData();
+            if (configData.allowedYear > 0) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(input.getDate());
+                int editionYear = calendar.get(Calendar.YEAR);
+                if (editionYear > configData.allowedYear) {
+                    return false; // Exclude editions after the allowed year
+                }
             }
             List<PaperCard> it = StreamSupport.stream(RewardData.getAllCards().spliterator(), false)
                     .filter(input2 -> input2.getEdition().equals(input.getCode())).collect(Collectors.toList());
             if (it.size() == 0)
                 return false;
-            ConfigData configData = Config.instance().getConfigData();
             if (configData.allowedEditions != null)
                 return Arrays.asList(configData.allowedEditions).contains(input.getCode());
             return (!Arrays.asList(configData.restrictedEditions).contains(input.getCode()));
