@@ -26,6 +26,7 @@ import forge.item.PaperCard;
 import forge.sound.SoundEffectType;
 import forge.sound.SoundSystem;
 import forge.util.ItemPool;
+import java.util.Comparator;
 
 import java.util.Comparator;
 
