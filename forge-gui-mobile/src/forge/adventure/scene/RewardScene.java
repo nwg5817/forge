@@ -100,33 +100,73 @@ public class RewardScene extends UIScene {
 
     // Variable to store the previously selected RewardActor
     private RewardActor previousActor = null;
+    private Selectable currentSelectable = null;  // This will track the current selected item
+    private boolean inZoomMode = false;  // Track if we are in zoom mode
 
     private void toggleToolTip() {
-
         Selectable selectable = getSelected();
-        if (selectable == null) return;
+        if (selectable == null) return;  // No valid selection
 
-        RewardActor actor;
-        if (selectable.actor instanceof BuyButton) {
-            actor = ((BuyButton) selectable.actor).rewardActor;
-        } else if (selectable.actor instanceof RewardActor) {
-            actor = (RewardActor) selectable.actor;
-        } else {
-            return;
-        }
+        RewardActor actor = getRewardActorFromSelectable(selectable);
+        if (actor == null) return;  // No valid actor for selection
 
-        if (previousActor != null && previousActor != actor && previousActor.toolTipIsVisible()) {
-            previousActor.hideTooltip();
-        }
-
+        // If we're in zoom mode, pressing X again should exit and hide the tooltip
         if (actor.toolTipIsVisible()) {
             actor.hideTooltip();
-        } else if (!actor.isFlipped()) {
-            actor.showTooltip();
+            previousActor = null;  // Reset previous actor
+            inZoomMode = false;    // Exit zoom mode
+        } else {
+            // Otherwise, enter zoom mode and show the tooltip
+            if (!actor.isFlipped()) {
+                actor.showTooltip();
+                previousActor = actor;  // Track the current actor for later
+                inZoomMode = true;      // Enter zoom mode
+            }
+        }
+    }
+
+
+    private void checkSelectionChange() {
+        Selectable newSelectable = getSelected();
+
+        if (newSelectable != currentSelectable) {
+            // Selection has changed
+            if (currentSelectable != null) {
+                // Hide the tooltip for the previous actor if it exists, but only in zoom mode
+                RewardActor prevActor = getRewardActorFromSelectable(currentSelectable);
+                if (prevActor != null && inZoomMode && prevActor.toolTipIsVisible()) {
+                    prevActor.hideTooltip();
+                }
+            }
+
+            currentSelectable = newSelectable;
+
+            // If we are in zoom mode, show the tooltip for the new selection
+            if (inZoomMode && currentSelectable != null) {
+                toggleToolTip();  // Change the zoom to the new selected card
+            }
         }
 
-        previousActor = actor;
+        // If we navigate to a null selection, hide the tooltip automatically and exit zoom mode
+        if (currentSelectable == null && previousActor != null && previousActor.toolTipIsVisible()) {
+            previousActor.hideTooltip();
+            previousActor = null;  // Reset the previous actor reference
+            inZoomMode = false;  // Exit zoom mode
+        }
     }
+
+    private RewardActor getRewardActorFromSelectable(Selectable selectable) {
+        if (selectable == null) return null;
+
+        Actor actor = selectable.actor;
+        if (actor instanceof BuyButton) {
+            return ((BuyButton) actor).rewardActor;
+        } else if (actor instanceof RewardActor) {
+            return (RewardActor) actor;
+        }
+        return null;
+    }
+
 
     boolean doneClicked = false, shown = false;
     float flipCountDown = 1.0f;
@@ -206,6 +246,8 @@ public class RewardScene extends UIScene {
     public void act(float delta) {
         stage.act(delta);
         ImageCache.allowSingleLoad();
+        checkSelectionChange();
+
         if (doneClicked) {
             if (type == Type.Loot || type == Type.QuestReward) {
                 flipCountDown -= Gdx.graphics.getDeltaTime();
@@ -222,6 +264,7 @@ public class RewardScene extends UIScene {
     public void enter() {
         doneButton.setText("[+OK]");
         updateDetailButton();
+        inZoomMode = false; // Assuming you have a variable for tracking zoom mode
         super.enter();
     }
 
