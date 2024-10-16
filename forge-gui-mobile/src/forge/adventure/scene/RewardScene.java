@@ -98,10 +98,9 @@ public class RewardScene extends UIScene {
         detailButton.layout();
     }
 
-    // Variable to store the previously selected RewardActor
     private RewardActor previousActor = null;
-    private Selectable currentSelectable = null;  // This will track the current selected item
-    private boolean inZoomMode = false;  // Track if we are in zoom mode
+    private Selectable currentSelectable = null;
+    private boolean inZoomMode = false;
 
     private void toggleToolTip() {
         Selectable selectable = getSelected();
