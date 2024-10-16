@@ -28,7 +28,6 @@ import forge.sound.SoundSystem;
 import forge.util.ItemPool;
 import java.util.Comparator;
 
-import java.util.Comparator;
 
 /**
  * Displays the rewards of a fight or a treasure
