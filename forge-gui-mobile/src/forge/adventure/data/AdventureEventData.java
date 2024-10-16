@@ -318,10 +318,15 @@ public class AdventureEventData implements Serializable {
 
     private CardBlock pickWeightedCardBlock() {
         CardEdition.Collection editions = FModel.getMagicDb().getEditions();
-        Iterable<CardBlock> src = FModel.getBlocks(); //all blocks
+        Iterable<CardBlock> src = FModel.getBlocks(); // all blocks
         Predicate<CardEdition> filter = Predicates.and(CardEdition.Predicates.CAN_MAKE_BOOSTER, selectSetPool());
         List<CardEdition> allEditions = new ArrayList<>();
-        StreamSupport.stream(editions.spliterator(), false).filter(filter::apply).filter(CardEdition::hasBoosterTemplate).collect(Collectors.toList()).iterator().forEachRemaining(allEditions::add);
+        StreamSupport.stream(editions.spliterator(), false)
+                .filter(filter::apply)
+                .filter(CardEdition::hasBoosterTemplate)
+                .collect(Collectors.toList())
+                .iterator()
+                .forEachRemaining(allEditions::add);
 
         //Temporary restriction until rewards are more diverse - don't want to award restricted cards so these editions need different rewards added.
         List<String> restrictedDrafts = new ArrayList<>();
@@ -330,6 +335,17 @@ public class AdventureEventData implements Serializable {
         restrictedDrafts.add("2ED");
         restrictedDrafts.add("30A");
         allEditions.removeIf(q -> restrictedDrafts.contains(q.getCode()));
+
+        // New filtering logic based on allowedYear
+        ConfigData configData = Config.instance().getConfigData();
+        if (configData.allowedYear > 0) {
+            allEditions.removeIf(q -> {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(q.getDate());
+                int editionYear = calendar.get(Calendar.YEAR);
+                return editionYear > configData.allowedYear; // Exclude editions after the allowed year
+            });
+        }
 
         List<CardBlock> legalBlocks = new ArrayList<>();
         for (CardBlock b : src) { // for each block
@@ -353,7 +369,7 @@ public class AdventureEventData implements Serializable {
                     isOkay = boosterSize > 11;
                 }
                 for (PrintSheet ps : c.getPrintSheetsBySection()) {
-                    //exclude block with sets containing P9 cards..
+                    // Exclude blocks with sets containing P9 cards
                     if (ps.containsCardNamed("Black Lotus", 1)
                             || ps.containsCardNamed("Mox Emerald", 1)
                             || ps.containsCardNamed("Mox Pearl", 1)
@@ -373,7 +389,6 @@ public class AdventureEventData implements Serializable {
             }
         }
 
-        ConfigData configData = Config.instance().getConfigData();
         if (configData.allowedEditions != null) {
             List<String> allowed = Arrays.asList(configData.allowedEditions);
             legalBlocks.removeIf(q -> !allowed.contains(q.getName()));
@@ -497,10 +512,10 @@ public class AdventureEventData implements Serializable {
         if (format == AdventureEventController.EventFormat.Draft) {
 
             rewards[3] = new AdventureEventReward();
-            rewards[3].minWins = 3;
+            rewards[3].minWins = 1;
             rewards[3].maxWins = 3;
             draftedDeck.setName("Drafted Deck");
-            draftedDeck.setComment("Prize for placing 1st overall in draft event");
+            draftedDeck.setComment("Prize for placing in draft event");
             rewards[3].cardRewards = new Deck[]{draftedDeck};
 
         }
