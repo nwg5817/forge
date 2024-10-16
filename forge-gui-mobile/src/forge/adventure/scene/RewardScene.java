@@ -98,11 +98,14 @@ public class RewardScene extends UIScene {
         detailButton.layout();
     }
 
+    // Variable to store the previously selected RewardActor
+    private RewardActor previousActor = null;
+
     private void toggleToolTip() {
 
         Selectable selectable = getSelected();
-        if (selectable == null)
-            return;
+        if (selectable == null) return;
+
         RewardActor actor;
         if (selectable.actor instanceof BuyButton) {
             actor = ((BuyButton) selectable.actor).rewardActor;
@@ -111,13 +114,18 @@ public class RewardScene extends UIScene {
         } else {
             return;
         }
-        if (actor.toolTipIsVisible()) {
-            actor.hideTooltip();
-        } else {
-            if (!actor.isFlipped())
-                actor.showTooltip();
+
+        if (previousActor != null && previousActor != actor && previousActor.toolTipIsVisible()) {
+            previousActor.hideTooltip();
         }
 
+        if (actor.toolTipIsVisible()) {
+            actor.hideTooltip();
+        } else if (!actor.isFlipped()) {
+            actor.showTooltip();
+        }
+
+        previousActor = actor;
     }
 
     boolean doneClicked = false, shown = false;
